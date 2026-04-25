@@ -1,0 +1,556 @@
+/* ==========================================================================
+   1. VARIABLES DE COLOR Y CONFIGURACIÓN BASE
+   ========================================================================== */
+:root {
+    --azul-edsa: #002D5A;
+    --rojo-edsa: #E30613;
+    --glass-bg: rgba(0, 45, 90, 0.1); /* Nav casi transparente al inicio */
+    --texto-principal: #ffffff;      /* Forzamos blanco por tu fondo oscuro */
+    --card-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   2. NAVBAR PREMIUM (ESTILOS GENERALES)
+   ========================================================================== */
+.navbar-premium {
+    background-color: var(--glass-bg) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999 !important;
+    padding: 15px 0;
+    will-change: transform, background-color;
+}
+
+/* Estado al hacer Scroll */
+.navbar-scrolled {
+    padding: 8px 0 !important;
+    background-color: rgba(0, 20, 40, 0.98) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Logotipo */
+.logo-img {
+    height: 50px;
+    width: auto;
+    transition: height 0.3s ease;
+}
+
+.navbar-scrolled .logo-img {
+    height: 40px;
+}
+
+.navbar-brand .logo-img {
+    height: 25px; /* Ajuste específico para el contenedor brand */
+}
+
+/* Fondo Global Dinámico */
+body {
+    background: linear-gradient(#001744, #006680,#001339, #001339);
+    margin: 0;
+    padding: 0;
+    transition: background 0.5s ease;
+}
+
+/* ==========================================================================
+   3. LINKS DE NAVEGACIÓN Y BOTÓN CONTACTO
+   ========================================================================== */
+.nav-link {
+    position: relative;
+    transition: 0.3s;
+}
+
+/* Línea animada (Hover y Active) */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--rojo-edsa);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover, 
+.navbar-nav .nav-link.active {
+    color: var(--rojo-edsa) !important;
+}
+
+.nav-link:hover::after, 
+.navbar-nav .nav-link.active::after {
+    width: 80%;
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: 700;
+}
+
+/* Botón Contacto Premium */
+.btn-contacto-premium {
+    background: linear-gradient(45deg, var(--rojo-edsa), #ff4d4d);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3);
+    transition: 0.3s;
+    overflow: hidden;
+    position: relative;
+}
+
+.btn-contacto-premium:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(227, 6, 19, 0.5);
+    color: white;
+}
+
+/* ==========================================================================
+   4. INTERRUPTOR DE TEMA (SWITCH)
+   ========================================================================== */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 28px;
+    position: relative;
+    width: 55px;
+}
+
+.theme-switch input { display: none; }
+
+.slider {
+    background-color: #ccc;
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    content: "";
+    height: 20px; width: 20px;
+    left: 4px; bottom: 4px;
+    position: absolute;
+    transition: .4s;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+input:checked + .slider { background-color: var(--rojo-edsa); }
+input:checked + .slider:before { transform: translateX(26px); }
+
+.icon-sun, .icon-moon {
+    position: absolute;
+    top: 5px;
+    font-size: 12px;
+}
+.icon-sun { left: 7px; }
+.icon-moon { right: 7px; }
+
+/* ==========================================================================
+   5. MODIFICADORES MODO OSCURO (DATA-THEME DARK)
+   ========================================================================== */
+
+[data-theme="dark"] {
+    --azul-edsa: #000a1a;
+    --glass-bg: rgba(0, 5, 15, 0.9);
+    --card-bg: rgba(0, 0, 0, 0.6); /* Tarjetas más profundas */
+    
+    /* Degradado de fondo más oscuro para la noche */
+    background: linear-gradient(#000000, #00050a, #000000) !important;
+}
+
+/* Oscurecer la sección de equipo y footer */
+[data-theme="dark"] #equipo-profesional {
+    background-color: #000000 !important;
+}
+
+[data-theme="dark"] .team-card {
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-theme="dark"] .footer-premium {
+    background: linear-gradient(#000000, #001339) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Ajuste de textos secundarios para que no brillen tanto */
+[data-theme="dark"] .text-light-gray, 
+[data-theme="dark"] .footer-list a,
+[data-theme="dark"] .team-info p {
+    color: #a0a0a0 !important;
+}
+
+/* ==========================================================================
+   CARRUSEL DE EQUIPO
+   ========================================================================== */
+
+
+#team-carousel {
+    /* Si tienes 80px, cámbialo a 0. 
+       Si quieres que suba más, usa un número negativo como este: */
+    margin-top: 0px; 
+    
+    height: 75vh;
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* Asegúrate que sea menor al del navbar */
+}
+
+
+
+
+.carousel-item {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    transition: transform 3s ease; /* Efecto de movimiento lento en la imagen */
+}
+
+/* Efecto de zoom suave al cambiar de slide */
+.carousel-item.active {
+    transform: scale(1.1);
+}
+
+/* Indicadores personalizados */
+.carousel-indicators button {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50%;
+    background-color: var(--rojo-edsa) !important;
+    margin: 0 8px !important;
+}
+
+/* Ajustes Modo Oscuro para el Carrusel */
+[data-theme="dark"] .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Oscurece un poco más las fotos */
+}
+
+
+#team-carousel {
+    height: 75vh;
+    margin-top: 70px;
+    position: relative;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.carousel-img-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    /* Degradado para legibilidad */
+    background-image: linear-gradient(to right, rgba(0,19,57,0.85) 20%, rgba(0,19,57,0.2) 100%);
+    transition: transform 8s linear; /* Tiempo que dura el zoom */
+}
+
+/* Efecto de Zoom cuando el slide entra */
+.carousel-item.active .carousel-img-container {
+    transform: scale(1.15);
+}
+
+.carousel-caption-custom {
+    position: relative;
+    z-index: 10;
+    color: white;
+    max-width: 700px;
+}
+
+/* Animación de entrada para el texto */
+.reveal-text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.active .reveal-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.active h6.reveal-text { transition-delay: 0.3s; }
+.active h2.reveal-text { transition-delay: 0.5s; }
+.active p.reveal-text { transition-delay: 0.7s; }
+
+
+
+
+
+/* Animación de entrada con salto */
+@keyframes jumpIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+    60% {
+        transform: translateY(-10px) scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Aplicamos la animación a los elementos que tengan .reveal-text */
+.carousel-item.active .reveal-text {
+    animation: jumpIn 1s cubic-bezier(0.24, 1.2, 0.5, 1) forwards;
+}
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+.bg-dark-custom {
+    background-color: #00050a;
+}
+
+/* Tarjeta de Equipo - Optimizada para rendimiento */
+.team-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                background 0.4s ease, 
+                box-shadow 0.4s ease;
+    /* Aceleración por hardware para evitar lag */
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.team-card:hover {
+    transform: translateY(-15px) translateZ(0);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border-color: var(--rojo-edsa);
+}
+
+/* Contenedor de Imagen */
+.team-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/5; /* Formato retrato para PC */
+   
+}
+
+.team-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+    backface-visibility: hidden;
+}
+
+.team-card:hover .team-img-wrapper img {
+    transform: scale(1.1);
+}
+
+/* Máscara Overlay */
+.team-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0, 45, 90, 0.9), transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.team-card:hover .team-overlay {
+    opacity: 1;
+}
+
+/* Iconos y Badges */
+.team-social a {
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 15px;
+   
+}
+
+.team-social a:hover { color: var(--rojo-edsa); }
+
+.badge-tech {
+    background: var(--rojo-edsa);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Textos Forzados a Blanco (Día y Noche) */
+.team-info { padding: 25px 15px; }
+
+.team-info h4, 
+.team-info p, 
+#equipo-profesional .text-light-gray,
+.footer-list a, 
+.footer-list-info li {
+    color: #ffffff !important;
+}
+
+.team-info p { opacity: 0.9; }
+
+
+
+
+/* ==========================================================================
+   AJUSTE PARA TELÉFONOS (SOLUCIÓN TAMAÑO GIGANTE)
+   ========================================================================== */
+@media (max-width: 767px) {
+    .team-card {
+        max-width: 320px; /* Evita que la tarjeta sea gigante a lo ancho */
+        margin: 0 auto 30px auto;
+    }
+
+    .team-img-wrapper {
+        aspect-ratio: 1 / 1; /* Foto cuadrada en celular para ahorrar espacio */
+    }
+
+    .team-info {
+        padding: 15px 10px;
+    }
+
+    .team-info h4 {
+        font-size: 1.15rem;
+    }
+}
+
+
+/* ==========================================================================*/
+    .footer-premium {
+    background: linear-gradient( #001339, #c20000); /* Degradado moderno */
+    color: white;
+    padding: 60px 0 20px 0;
+    position: relative;
+    z-index: 20; /* Para que quede por encima de las secciones anteriores */
+}
+
+/* Contenedor del Video Cuadrado */
+.footer-video-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.footer-logo-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que llene el cuadrado sin deformarse */
+}
+
+.footer-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-list, .footer-list-info {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-list li {
+    margin-bottom: 12px;
+}
+
+.footer-list a {
+    color: var(--text-light-gray);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-list a:hover {
+    color: var(--rojo-edsa);
+    padding-left: 5px;
+}
+
+.footer-list-info li {
+    font-size: 0.9rem;
+    color: var(--text-light-gray);
+    margin-bottom: 10px;
+    
+}
+
+.social-links a {
+    color: white;
+    font-size: 1.2rem;
+    margin-right: 30px;
+    transition: 0.3s;
+
+    
+}
+
+.social-links a:hover {
+    color: var(--rojo-edsa);
+    transform: translateY(-3px);
+   
+}
+
+.footer-divider {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 40px 0 20px 0;
+}
+
+/* Icono de ubicación estilo App */
+.location-icon-container {
+    background: white;
+    width: 60px;
+    height: 100px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: #002d5a;
+    font-size: 1.8rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.social-links {
+    display: flex; /* Usamos flexbox para control total */
+    justify-content: flex-start; /* Opciones: center, flex-end, space-between */
+    gap: 20px; /* Controla el espacio exacto entre cada icono */
+    
+    /* Mover todo el bloque con margen */
+    margin-left: 17px;  /* Mueve a la derecha */
+    margin-top: 15px;   /* Mueve hacia abajo */
+    
+    /* Si quieres moverlos a una posición específica sin afectar lo demás */
+    position: relative;
+    left: 0px; /* Cambia a 10px, 20px, etc. para mover a la derecha */
+    top: 0px;  /* Cambia para mover verticalmente */
+}
